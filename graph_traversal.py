@@ -178,7 +178,25 @@ class Graph(object):
         node = self.find_node(start_node_num)
         self._clear_visited()
         ret_list = [node.value]
-        # Your code here
+        list = ret_list
+        visited_list = []
+        vis_list = visited_list
+
+        def my_helper(list, vis_list):
+            buff = []
+            j = 0
+            while j < len(list):
+                if not (list[j] in vis_list):
+                    vis_list.append(self.find_node(list[j]).value)
+                    for edge in self.find_node(list[j]).edges:
+                        if edge.node_from == self.find_node(list[j]):
+                            if (not (edge.node_to.value in list)):
+                                list.append(edge.node_to.value)
+                j += 1
+            return list
+        while ret_list != visited_list:
+            my_helper(ret_list, visited_list)
+
         return ret_list
 
     def bfs_names(self, start_node_num):
@@ -237,8 +255,8 @@ pp.pprint(graph.dfs_names(2))
 # Depth First Search
 # ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
 
-# print ("\nBreadth First Search")
-# pp.pprint(graph.bfs_names(2))
+print ("\nBreadth First Search")
+pp.pprint(graph.bfs_names(2))
 # test error reporting
 # pp.pprint(['Sao Paolo', 'Mountain View', 'San Francisco', 'London', 'Shanghai', 'Berlin'])
 
